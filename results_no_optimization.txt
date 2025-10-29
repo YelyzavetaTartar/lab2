@@ -1,0 +1,35 @@
+Starting count_if performance research...
+Using C++20, MSVC Compiler in RELEASE mode (Optimization Disabled /Od)
+Predicate: is_even (checks if number is even)
+
+Hardware concurrency (logical cores): 20
+
+--- 1. Library std::count_if (sequential) ---
+Data size:    100000 | Time: 0.000562 seconds
+Data size:   1000000 | Time: 0.005690 seconds
+Data size:  10000000 | Time: 0.057401 seconds
+Data size: 100000000 | Time: 0.544590 seconds
+
+--- 2. Library std::count_if with execution policies ---
+Using data size: 100000000
+  Policy std::execution::seq      | Time: 0.547485 seconds
+  Policy std::execution::par      | Time: 0.054631 seconds
+  Policy std::execution::unseq    | Time: 0.546129 seconds
+  Policy std::execution::par_unseq| Time: 0.047350 seconds
+
+--- 3. Custom Parallel count_if Algorithm ---
+Using data size: 100000000
+Varying K (number of threads/chunks):
+K         Time (s)       Count
+---------------------------------------
+1         0.701598       50001647
+10        0.094579       50001647
+20        0.058492       50001647
+30        0.068337       50001647
+32        0.065411       50001647
+40        0.055908       50001647
+60        0.056635       50001647
+
+Best K found for custom algorithm: 40 (Time: 0.055908 seconds)
+Ratio Best K / Hardware threads: 2.000000
+
