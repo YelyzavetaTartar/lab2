@@ -5,31 +5,32 @@ Predicate: is_even (checks if number is even)
 Hardware concurrency (logical cores): 20
 
 --- 1. Library std::count_if (sequential) ---
-Data size:    100000 | Time: 0.000562 seconds
-Data size:   1000000 | Time: 0.005690 seconds
-Data size:  10000000 | Time: 0.057401 seconds
-Data size: 100000000 | Time: 0.544590 seconds
+Data size:    100000 | Time: 0.000519 seconds
+Data size:   1000000 | Time: 0.005305 seconds
+Data size:  10000000 | Time: 0.054285 seconds
+Data size: 100000000 | Time: 0.522000 seconds
 
 --- 2. Library std::count_if with execution policies ---
 Using data size: 100000000
-  Policy std::execution::seq      | Time: 0.547485 seconds
-  Policy std::execution::par      | Time: 0.054631 seconds
-  Policy std::execution::unseq    | Time: 0.546129 seconds
-  Policy std::execution::par_unseq| Time: 0.047350 seconds
+  Policy std::execution::seq      | Time: 0.548254 seconds
+  Policy std::execution::par      | Time: 0.063899 seconds
+  Policy std::execution::unseq    | Time: 0.549833 seconds
+  Policy std::execution::par_unseq| Time: 0.051104 seconds
 
 --- 3. Custom Parallel count_if Algorithm ---
 Using data size: 100000000
 Varying K (number of threads/chunks):
 K         Time (s)       Count
 ---------------------------------------
-1         0.701598       50001647
-10        0.094579       50001647
-20        0.058492       50001647
-30        0.068337       50001647
-32        0.065411       50001647
-40        0.055908       50001647
-60        0.056635       50001647
+1         0.702320       50006742
+10        0.092028       50006742
+20        0.059865       50006742
+30        0.065903       50006742
+32        0.063396       50006742
+40        0.054004       50006742
+60        0.054532       50006742
 
-Best K found for custom algorithm: 40 (Time: 0.055908 seconds)
+Best K found for custom algorithm: 40 (Time: 0.054004 seconds)
 Ratio Best K / Hardware threads: 2.000000
+
 
