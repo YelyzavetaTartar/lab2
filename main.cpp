@@ -89,10 +89,11 @@ int main() {
     std::cout << std::fixed << std::setprecision(6);
 
     std::cout << "--- 1. Library std::count_if (sequential) ---" << std::endl;
+    int nonlocal{};
     for (size_t size : data_sizes) {
         std::vector<int> data = generate_random_vector(size);
         double duration = measure_time([&]() {
-            std::count_if(data.begin(), data.end(), is_even);
+            nonlocal = std::count_if(data.begin(), data.end(), is_even);
             });
         std::cout << "Data size: " << std::setw(9) << size << " | Time: " << duration << " seconds" << std::endl;
     }
@@ -102,24 +103,26 @@ int main() {
     size_t large_data_size = data_sizes.back(); // Use 10^8 elements
     std::vector<int> large_data = generate_random_vector(large_data_size);
     std::cout << "Using data size: " << large_data_size << std::endl;
-
+    
+    long long count_result{}; // Declare a variable to store the result
+    
     double time_seq_policy = measure_time([&]() {
-        std::count_if(std::execution::seq, large_data.begin(), large_data.end(), is_even);
+        count_result = std::count_if(std::execution::seq, large_data.begin(), large_data.end(), is_even);
         });
     std::cout << "  Policy std::execution::seq      | Time: " << time_seq_policy << " seconds" << std::endl;
 
     double time_par_policy = measure_time([&]() {
-        std::count_if(std::execution::par, large_data.begin(), large_data.end(), is_even);
+        count_result =   std::count_if(std::execution::par, large_data.begin(), large_data.end(), is_even);
         });
     std::cout << "  Policy std::execution::par      | Time: " << time_par_policy << " seconds" << std::endl;
 
     double time_unseq_policy = measure_time([&]() {
-        std::count_if(std::execution::unseq, large_data.begin(), large_data.end(), is_even);
+        count_result =  std::count_if(std::execution::unseq, large_data.begin(), large_data.end(), is_even);
         });
     std::cout << "  Policy std::execution::unseq    | Time: " << time_unseq_policy << " seconds" << std::endl;
 
     double time_par_unseq_policy = measure_time([&]() {
-        std::count_if(std::execution::par_unseq, large_data.begin(), large_data.end(), is_even);
+        count_result =   std::count_if(std::execution::par_unseq, large_data.begin(), large_data.end(), is_even);
         });
     std::cout << "  Policy std::execution::par_unseq| Time: " << time_par_unseq_policy << " seconds" << std::endl;
     std::cout << std::endl;
